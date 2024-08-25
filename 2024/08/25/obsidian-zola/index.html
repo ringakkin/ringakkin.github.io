@@ -1,0 +1,712 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="黑曜石左拉   Obsidian Publish 的免费（但更好？）替代品。  该存储库包含一个易于使用（阅读：简单）的解决方案，用于将 Obsidian 个人知识管理系统（阅读：一堆随机 Markdown）转换为 Zola 站点。  致谢：这个仓库是从Adidoks分叉的。 特别感谢：Wikilink 解析由obsidian-export提供支持。 公告v1.3.0 满足功能要求！✨ Bug修复">
+<meta property="og:type" content="article">
+<meta property="og:title" content="黑曜石左拉">
+<meta property="og:url" content="http://example.com/2024/08/25/obsidian-zola/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="黑曜石左拉   Obsidian Publish 的免费（但更好？）替代品。  该存储库包含一个易于使用（阅读：简单）的解决方案，用于将 Obsidian 个人知识管理系统（阅读：一堆随机 Markdown）转换为 Zola 站点。  致谢：这个仓库是从Adidoks分叉的。 特别感谢：Wikilink 解析由obsidian-export提供支持。 公告v1.3.0 满足功能要求！✨ Bug修复">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://camo.githubusercontent.com/1d5ec435f65ca9b3a5d5ab1c25c27349318ca18dc423430b57fd566b7e2555cd/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f762f72656c656173652f70706565747465657272732f6f6273696469616e2d7a6f6c61">
+<meta property="og:image" content="https://camo.githubusercontent.com/de840d9d223cf010cfaea38d4dbdf0355ceef30bce62e0b42ea59e2119d17523/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f6973737565732d636c6f7365642d7261772f70706565747465657272732f6f6273696469616e2d7a6f6c61">
+<meta property="og:image" content="https://camo.githubusercontent.com/2ebf393f6cc610f2ae2883a8b3ca39f13d559bcf9e951a67bd21705246e4e8d4/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f64796e616d69632f6a736f6e3f636f6c6f723d626c756576696f6c6574266c6162656c3d746f6461792532377325323076696577732671756572793d2532342e6461746173657473253542312535442e76616c7565732535422532382534302e6c656e6774682d312532392535442675726c3d687474707325334125324625324679687970652e6d6525324661706925324663686172742532467265706f7369746f72795f76696577735f636f756e745f63686172745f636f6e74726f6c6c65722533467265706f7369746f72794e6f64654964253344525f6b67444f477048703441">
+<meta property="article:published_time" content="2024-08-25T09:01:27.518Z">
+<meta property="article:modified_time" content="2024-08-25T09:01:55.346Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://camo.githubusercontent.com/1d5ec435f65ca9b3a5d5ab1c25c27349318ca18dc423430b57fd566b7e2555cd/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f762f72656c656173652f70706565747465657272732f6f6273696469616e2d7a6f6c61">
+  
+  
+  
+  <title>黑曜石左拉 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="黑曜石左拉"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-08-25 17:01" pubdate>
+          August 25, 2024 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.2k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          11 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">黑曜石左拉</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="黑曜石左拉"><a href="#黑曜石左拉" class="headerlink" title="黑曜石左拉"></a>黑曜石左拉</h1><p><a target="_blank" rel="noopener" href="https://camo.githubusercontent.com/1d5ec435f65ca9b3a5d5ab1c25c27349318ca18dc423430b57fd566b7e2555cd/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f762f72656c656173652f70706565747465657272732f6f6273696469616e2d7a6f6c61"><img src="https://camo.githubusercontent.com/1d5ec435f65ca9b3a5d5ab1c25c27349318ca18dc423430b57fd566b7e2555cd/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f762f72656c656173652f70706565747465657272732f6f6273696469616e2d7a6f6c61" srcset="/img/loading.gif" lazyload></a> <a target="_blank" rel="noopener" href="https://camo.githubusercontent.com/de840d9d223cf010cfaea38d4dbdf0355ceef30bce62e0b42ea59e2119d17523/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f6973737565732d636c6f7365642d7261772f70706565747465657272732f6f6273696469616e2d7a6f6c61"><img src="https://camo.githubusercontent.com/de840d9d223cf010cfaea38d4dbdf0355ceef30bce62e0b42ea59e2119d17523/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f6973737565732d636c6f7365642d7261772f70706565747465657272732f6f6273696469616e2d7a6f6c61" srcset="/img/loading.gif" lazyload></a> <a target="_blank" rel="noopener" href="https://camo.githubusercontent.com/2ebf393f6cc610f2ae2883a8b3ca39f13d559bcf9e951a67bd21705246e4e8d4/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f64796e616d69632f6a736f6e3f636f6c6f723d626c756576696f6c6574266c6162656c3d746f6461792532377325323076696577732671756572793d2532342e6461746173657473253542312535442e76616c7565732535422532382534302e6c656e6774682d312532392535442675726c3d687474707325334125324625324679687970652e6d6525324661706925324663686172742532467265706f7369746f72795f76696577735f636f756e745f63686172745f636f6e74726f6c6c65722533467265706f7369746f72794e6f64654964253344525f6b67444f477048703441"><img src="https://camo.githubusercontent.com/2ebf393f6cc610f2ae2883a8b3ca39f13d559bcf9e951a67bd21705246e4e8d4/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f64796e616d69632f6a736f6e3f636f6c6f723d626c756576696f6c6574266c6162656c3d746f6461792532377325323076696577732671756572793d2532342e6461746173657473253542312535442e76616c7565732535422532382534302e6c656e6774682d312532392535442675726c3d687474707325334125324625324679687970652e6d6525324661706925324663686172742532467265706f7369746f72795f76696577735f636f756e745f63686172745f636f6e74726f6c6c65722533467265706f7369746f72794e6f64654964253344525f6b67444f477048703441" srcset="/img/loading.gif" lazyload></a></p>
+<p>Obsidian Publish 的免费（但更好？）替代品。</p>
+<blockquote>
+<p>该存储库包含一个易于使用（阅读：简单）的解决方案，用于将 Obsidian 个人知识管理系统（阅读：一堆随机 Markdown）转换为 Zola 站点。</p>
+</blockquote>
+<p>致谢：这个仓库是从<a target="_blank" rel="noopener" href="https://github.com/aaranxu/adidoks">Adidoks</a>分叉的。</p>
+<p>特别感谢：Wikilink 解析由<a target="_blank" rel="noopener" href="https://github.com/zoni/obsidian-export">obsidian-export</a>提供支持。</p>
+<h1 id="公告"><a href="#公告" class="headerlink" title="公告"></a><a target="_blank" rel="noopener" href="https://github.com/ppeetteerrs/obsidian-zola#announcements"></a>公告</h1><p><strong>v1.3.0 满足功能要求！✨</strong></p>
+<p>Bug修复：</p>
+<ul>
+<li>修复了一些与非常规文件名相关的错误（例如包含“.”和其他特殊字符）</li>
+</ul>
+<p>改进：</p>
+<ul>
+<li>更好的本地测试设置（见<code>Local Testing</code>下文）</li>
+<li>可配置的根部分名称</li>
+<li>可配置的页脚内容</li>
+</ul>
+<h1 id="设置"><a href="#设置" class="headerlink" title="设置"></a><a target="_blank" rel="noopener" href="https://github.com/ppeetteerrs/obsidian-zola#setup"></a>设置</h1><p><strong>第 1 步：设置 Netlify</strong></p>
+<ul>
+<li>将您的 Obsidian 保管库文件夹转变为 Git 存储库</li>
+<li>创建一个指向该 Git 存储库的 Netlify 站点</li>
+</ul>
+<p><strong>第 2 步：编辑<code>netlify.toml</code></strong></p>
+<ul>
+<li><code>netlify.toml</code>在您的黑曜石保管库文件夹中创建</li>
+<li>复制此存储库中的内容<code>netlify.example.toml</code>并替换适当的设置（<code>SITE_URL</code>，<code>REPO_URL</code>并且<code>LANDING_PAGE</code>不能留空）。</li>
+</ul>
+<p><strong>第三步：你就完成了🎉！</strong></p>
+<ul>
+<li>推动你的改变，准备好成名！</li>
+<li>花哨一点：（<code>netlify.toml</code>例如<code>LANDING_TITLE</code>）中的所有文本字段设置都支持 HTML 语法。我还为那些想要添加个人风格的人添加了<code>Animate.css</code>++ ~&#96;Hover.css&#96;&#96;CSShake&#96;</li>
+</ul>
+<p><strong>第 4 步：问题和功能请求</strong></p>
+<ul>
+<li>如果您遇到任何问题，请先参考<a target="_blank" rel="noopener" href="https://github.com/ppeetteerrs/obsidian-zola/blob/main/CONFIG.md">Config+FAQ</a>。如果仍未解决，只需在<code>Issues</code>选项卡中发布即可。如果问题与部署相关，最好包含在 Netlify 面板中找到的错误日志的副本。</li>
+<li>如果您有任何功能请求，也请发布问题。但是，请注意，此存储库旨在作为一个文件设置。除非大多数用户需要，否则不会支持高级功能&#x2F;详细的可配置性。不过，我可以帮助您实现适合您需求的分叉🥂。</li>
+</ul>
+<p><strong>第 5 步：（可选增强功能）自动提交站点地图</strong></p>
+<p>为了使您的网站对搜索引擎更加友好，您可以添加一个 netlify 插件，以便在每次重新部署网站时自动提交新的站点地图。只需将以下内容添加到您的<code>netlify.toml</code>. 请记住替换<code>baseUrl</code>为您的<code>SITE_URL</code>.</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs toml"><span class="hljs-section">[[plugins]]</span><br><span class="hljs-attr">package</span> = <span class="hljs-string">&quot;netlify-plugin-submit-sitemap&quot;</span><br><br><span class="hljs-section">[plugins.inputs]</span><br><br><span class="hljs-comment"># The base url of your site (optional, default = main URL set in Netlify)</span><br><span class="hljs-attr">baseUrl</span> = <span class="hljs-string">&quot;https://peteryuen.netlify.app/&quot;</span><br><br><span class="hljs-comment"># Path to the sitemap URL (optional, default = /sitemap.xml)</span><br><span class="hljs-attr">sitemapPath</span> = <span class="hljs-string">&quot;/sitemap.xml&quot;</span><br><br><span class="hljs-comment"># Time in seconds to not submit the sitemap after successful submission</span><br><span class="hljs-attr">ignorePeriod</span> = <span class="hljs-number">0</span><br><br><span class="hljs-comment"># Enabled providers to submit sitemap to (optional, default = &#x27;google&#x27;, &#x27;bing&#x27;, &#x27;yandex&#x27;). Possible providers are currently only &#x27;google&#x27;, &#x27;bing&#x27;, &#x27;yandex&#x27;.</span><br><span class="hljs-attr">providers</span> = [<br>  <span class="hljs-string">&quot;google&quot;</span>,<br>  <span class="hljs-string">&quot;bing&quot;</span>,<br>  <span class="hljs-string">&quot;yandex&quot;</span>,<br>]<br></code></pre></td></tr></table></figure>
+
+<h1 id="示例站点"><a href="#示例站点" class="headerlink" title="示例站点"></a><a target="_blank" rel="noopener" href="https://github.com/ppeetteerrs/obsidian-zola#example-site"></a>示例站点</h1><blockquote>
+<p>不要<code>netlify.toml</code>从示例站点复制，它不稳定。请参考来自<code>netlify.example.toml</code>.</p>
+</blockquote>
+<p>该<a target="_blank" rel="noopener" href="https://peteryuen.netlify.app/">示例站点</a>展示了 的功能<code>obsidian-zola</code>。请注意，示例站点使用 的<code>dev</code>分支<code>obsidian-zola</code>。如果您看到示例站点中可用但主分支中尚不可用的功能，请考虑尝试<code>dev</code>（不稳定）分支。具体方法可以参考<a target="_blank" rel="noopener" href="https://github.com/ppeetteerrs/obsidian-pkm">示例仓库</a> <code>netlify.toml</code>的.</p>
+<h1 id="本地测试（Ubuntu）-感谢-trwbox"><a href="#本地测试（Ubuntu）-感谢-trwbox" class="headerlink" title="本地测试（Ubuntu）[感谢@trwbox]"></a><a target="_blank" rel="noopener" href="https://github.com/ppeetteerrs/obsidian-zola#local-testing-ubuntu-thanks-trwbox"></a>本地测试（Ubuntu）[感谢@trwbox]</h1><ul>
+<li>根据网站上的说明安装 zola<code>https://www.getzola.org/documentation/getting-started/installation/</code></li>
+<li>运行以下命令来安装其他所需的依赖项<code>sudo apt install python-is-python3 python3-pip</code>和<code>pip3 install python-slugify rtoml</code>（或使用<code>conda</code>&#x2F; <code>mamba</code>）</li>
+<li>用于<code>git clone https://github.com/ppeetteerrs/obsidian-zola</code>将存储库克隆到黑曜石保管库文件夹内以外的其他位置</li>
+<li><code>.vault_path</code>使用文件或<code>$VAULT</code>环境变量设置 ObsisianVault 的路径</li>
+<li>用于<code>./local-run.sh</code>运行网站</li>
+</ul>
+<h1 id="特征"><a href="#特征" class="headerlink" title="特征"></a><a target="_blank" rel="noopener" href="https://github.com/ppeetteerrs/obsidian-zola#features"></a>特征</h1><p><strong>免责声明</strong></p>
+<blockquote>
+<p>该工具专为使用 Obsidian 作为简单高效的笔记应用程序（或 PKM）的用户而设计。如果您为 Obsidian 配置了大​​量奇特的短代码、插件和特定于 Obsidian 的语法，则该工具不会（也无意）支持这些功能。</p>
+</blockquote>
+<p><strong>支持的</strong></p>
+<ul>
+<li>知识图谱（也可以将其视为反向链接）</li>
+<li>LaTEX（由 提供支持<code>KaTEX</code>，再见 MathJAX 粉丝👋）</li>
+<li>部分字符串搜索（由 提供支持<code>elasticlunr</code>）</li>
+<li>语法高亮 + Fira 代码！</li>
+<li>可定制的动画</li>
+<li>导航</li>
+<li>表中的内容</li>
+<li>典型的 Markdown 语法</li>
+<li>删除线</li>
+<li>表格</li>
+<li>单行脚注（即<code>&lt;sup id=&quot;fnref:1&quot; class=&quot;footnote-ref&quot;&gt;&lt;a href=&quot;#fn:1&quot; rel=&quot;footnote&quot;&gt;&lt;span class=&quot;hint--top hint--rounded&quot; aria-label=&quot;xxx</code>后面）</li>
+<li>复选框</li>
+<li>链接转义模式：<code>[Slides Demo]()</code>“&gt;[1]</span></a></sup><code>在段落中及</code></li>
+</ul>
+<p><strong>不支持</strong></p>
+<ul>
+<li>非图像&#x2F;注释嵌入（例如视频、音频、PDF）。它们将变成链接。</li>
+<li>调整图像大小</li>
+<li>突出显示文本</li>
+<li>评论</li>
+<li>内联&#x2F;多行脚注</li>
+<li>美人鱼图</li>
+</ul>
+<h1 id="陷阱"><a href="#陷阱" class="headerlink" title="陷阱"></a><a target="_blank" rel="noopener" href="https://github.com/ppeetteerrs/obsidian-zola#gotchas"></a>陷阱</h1><ol>
+<li>没有带有名称<code>index.md</code>或名称的文件<code>_index.md</code></li>
+<li><del>不存在与其子文件夹同名的文件（例如同时存在<code>.../category1.md</code>且<code>.../category1/xxx.md</code>不允许）</del>（固定的）</li>
+<li><code>LANDING_PAGE``SLUGIFY</code>如果打开，则需要设置为 slugified 文件名（例如，要使用<code>I am Home.md</code>，<code>LANDING_PAGE</code>需要<code>i-am-home</code>）</li>
+</ol>
+<h1 id="WIP-想法"><a href="#WIP-想法" class="headerlink" title="WIP&#x2F;想法"></a><a target="_blank" rel="noopener" href="https://github.com/ppeetteerrs/obsidian-zola#wips--ideas"></a>WIP&#x2F;想法</h1><ul>
+<li>（可能会做）反向链接&#x2F;提及</li>
+<li>（也许）洛蒂动画？</li>
+<li>（不知道）可配置的折叠图标<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>xxx&#96;后面）<ul>
+<li>复选框</li>
+<li>链接转义模式：<code>[Slides Demo](&lt;Slides Demo&gt;)</code></li>
+</ul>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>黑曜石左拉</div>
+      <div>http://example.com/2024/08/25/obsidian-zola/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>August 25, 2024</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/08/25/kafka/" title="Kafka消息中间件">
+                        <span class="hidden-mobile">Kafka消息中间件</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
