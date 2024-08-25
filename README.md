@@ -12,5 +12,6 @@
 #### 跳转至myblog文件夹下，每次更改数据后都要执行下面三个命令
 1. 清除缓存文件 hexo clean
 2. 生成静态文件 hexo generate 可简写为 hexo g
-3. 启动服务器   hexo server 可简写为 hexo s
+3. 启动服务器   hexo server 可简写为 hexo s 
+4. hexo deploy //自动生成网站静态文件，并部署到设定的仓库。
 
