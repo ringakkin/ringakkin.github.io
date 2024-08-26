@@ -1,0 +1,718 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="使用docker和streamlit阿里云服务器部署简单的演示网页这是一篇尽可能新手向的文章，适合首次购买阿里云服务器，想要建一个简单的，用于演示网站的用户，比如深度学习&#x2F;数据的交互式页面。不需要你有什么web开发经验，一步一步跟着搭建就好。我自己前后折腾了两天，写下这篇文章以免其他人绕弯路。  不用学前端编程，你就能用 Python 简单高效写出漂亮的交互式 Web 应用，将你的数据分">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用docker和streamlit阿里云服务器部署简单的演示网页">
+<meta property="og:url" content="http://example.com/2024/08/25/presentation/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="使用docker和streamlit阿里云服务器部署简单的演示网页这是一篇尽可能新手向的文章，适合首次购买阿里云服务器，想要建一个简单的，用于演示网站的用户，比如深度学习&#x2F;数据的交互式页面。不需要你有什么web开发经验，一步一步跟着搭建就好。我自己前后折腾了两天，写下这篇文章以免其他人绕弯路。  不用学前端编程，你就能用 Python 简单高效写出漂亮的交互式 Web 应用，将你的数据分">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://jackiegeek.gitee.io/blog/attachment/2020-09-16_04-46-47.png">
+<meta property="og:image" content="https://jackiegeek.gitee.io/blog/attachment/2020-09-16_02-14-17.png">
+<meta property="og:image" content="https://jackiegeek.gitee.io/blog/attachment/2020-09-16_03-03-37.png">
+<meta property="og:image" content="https://jackiegeek.gitee.io/blog/attachment/2020-09-16_03-14-20.png">
+<meta property="og:image" content="https://jackiegeek.gitee.io/blog/attachment/2020-09-16_03-21-31.png">
+<meta property="og:image" content="https://jackiegeek.gitee.io/blog/attachment/2020-09-16_03-27-08.png">
+<meta property="og:image" content="https://jackiegeek.gitee.io/blog/attachment/2020-09-16_03-30-11.png">
+<meta property="og:image" content="https://jackiegeek.gitee.io/blog/attachment/2020-09-16_03-33-10.png">
+<meta property="og:image" content="https://jackiegeek.gitee.io/blog/attachment/2020-09-16_03-33-52.png">
+<meta property="og:image" content="https://jackiegeek.gitee.io/blog/attachment/2020-09-16_03-37-04.png">
+<meta property="og:image" content="https://jackiegeek.gitee.io/blog/attachment/2020-09-16_04-33-45.png">
+<meta property="article:published_time" content="2024-08-25T09:13:16.280Z">
+<meta property="article:modified_time" content="2024-08-25T09:13:16.280Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jackiegeek.gitee.io/blog/attachment/2020-09-16_04-46-47.png">
+  
+  
+  
+  <title>使用docker和streamlit阿里云服务器部署简单的演示网页 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="使用docker和streamlit阿里云服务器部署简单的演示网页"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-08-25 17:13" pubdate>
+          August 25, 2024 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.7k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          15 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">使用docker和streamlit阿里云服务器部署简单的演示网页</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="使用docker和streamlit阿里云服务器部署简单的演示网页"><a href="#使用docker和streamlit阿里云服务器部署简单的演示网页" class="headerlink" title="使用docker和streamlit阿里云服务器部署简单的演示网页"></a>使用docker和streamlit阿里云服务器部署简单的演示网页</h1><p>这是一篇尽可能新手向的文章，适合首次购买阿里云服务器，想要建一个简单的，用于演示网站的用户，比如深度学习&#x2F;数据的交互式页面。不需要你有什么web开发经验，一步一步跟着搭建就好。我自己前后折腾了两天，写下这篇文章以免其他人绕弯路。</p>
+<blockquote>
+<p>不用学前端编程，你就能用 Python 简单高效写出漂亮的交互式 Web 应用，将你的数据分析成果立即展示给团队和客户。</p>
+</blockquote>
+<h2 id="最终效果"><a href="#最终效果" class="headerlink" title="最终效果#"></a>最终效果<a target="_blank" rel="noopener" href="https://jackiegeek.gitee.io/blog/%E6%8A%80%E6%9C%AF/%E4%BD%BF%E7%94%A8docker%E5%92%8Cstreamlit%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E7%AE%80%E5%8D%95%E7%9A%84%E6%BC%94%E7%A4%BA%E7%BD%91%E9%A1%B5/#%E6%9C%80%E7%BB%88%E6%95%88%E6%9E%9C" title="Permanent link">#</a></h2><p>一个网站（ip地址）： <a target="_blank" rel="noopener" href="http://47.115.79.16:8501/">http://47.115.79.16:8501</a></p>
+<p><img src="https://jackiegeek.gitee.io/blog/attachment/2020-09-16_04-46-47.png" srcset="/img/loading.gif" lazyload alt="picture 12"></p>
+<blockquote>
+<p>如果你购买了域名并且备案成功-国内需要，你就可以用域名来访问这个ip网址了，域名以及解析不在本文讨论范围内，可以上网自查，也不难</p>
+</blockquote>
+<h2 id="为了实现这个效果，你需要？"><a href="#为了实现这个效果，你需要？" class="headerlink" title="为了实现这个效果，你需要？#"></a>为了实现这个效果，你需要？<a target="_blank" rel="noopener" href="https://jackiegeek.gitee.io/blog/%E6%8A%80%E6%9C%AF/%E4%BD%BF%E7%94%A8docker%E5%92%8Cstreamlit%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E7%AE%80%E5%8D%95%E7%9A%84%E6%BC%94%E7%A4%BA%E7%BD%91%E9%A1%B5/#%E4%B8%BA%E4%BA%86%E5%AE%9E%E7%8E%B0%E8%BF%99%E4%B8%AA%E6%95%88%E6%9E%9C%E4%BD%A0%E9%9C%80%E8%A6%81" title="Permanent link">#</a></h2><ul>
+<li><strong>一点钱</strong>：购买一台最低配置的阿里云服务器，参考价格：16￥&#x2F;周；50￥&#x2F;月；500￥&#x2F;年。本文为了演示，买了一台最最便宜的，只花了16元。</li>
+<li><strong>一点docker知识</strong>：不过不用担心，照着本文依样画葫芦也可以。如果你想学习docker，推荐：<a target="_blank" rel="noopener" href="https://yeasy.gitbook.io/">docker从入门到实践</a></li>
+<li><strong>一点时间</strong>：半小时到5小时不等，取决于你想学到什么程度</li>
+<li>ssh客户端（xshell&#x2F;vscode之类），连接服务器的时候用。（不会也没问题，可以用阿里云的网页连接服务器终端）</li>
+</ul>
+<blockquote>
+<p>为什么使用docker？</p>
+<p>方便部署，不需要在每一台新的服务器上都折腾很久。搞定这个你也可以用相同的方法弄flask、django的部署</p>
+<p>为什么使用streamlit？</p>
+<p>flask和django无疑更好，但加上前端的知识，学习成本较高，但我的目标只是搭建一个简单的交互页面，streamlit足够了而且非常简单</p>
+</blockquote>
+<h2 id="开始干吧！"><a href="#开始干吧！" class="headerlink" title="开始干吧！#"></a>开始干吧！<a target="_blank" rel="noopener" href="https://jackiegeek.gitee.io/blog/%E6%8A%80%E6%9C%AF/%E4%BD%BF%E7%94%A8docker%E5%92%8Cstreamlit%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E7%AE%80%E5%8D%95%E7%9A%84%E6%BC%94%E7%A4%BA%E7%BD%91%E9%A1%B5/#%E5%BC%80%E5%A7%8B%E5%B9%B2%E5%90%A7" title="Permanent link">#</a></h2><h3 id="一、购买阿里云服务器"><a href="#一、购买阿里云服务器" class="headerlink" title="一、购买阿里云服务器#"></a>一、购买阿里云服务器<a target="_blank" rel="noopener" href="https://jackiegeek.gitee.io/blog/%E6%8A%80%E6%9C%AF/%E4%BD%BF%E7%94%A8docker%E5%92%8Cstreamlit%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E7%AE%80%E5%8D%95%E7%9A%84%E6%BC%94%E7%A4%BA%E7%BD%91%E9%A1%B5/#%E4%B8%80%E8%B4%AD%E4%B9%B0%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8" title="Permanent link">#</a></h3><ol>
+<li><p>访问<a target="_blank" rel="noopener" href="https://www.aliyun.com/">阿里云官网</a>，选择<code>云服务器ECS</code>，在跳转后的页面中选择<code>立即购买</code><br><img src="https://jackiegeek.gitee.io/blog/attachment/2020-09-16_02-14-17.png" srcset="/img/loading.gif" lazyload alt="picture 1"></p>
+<blockquote>
+<p>你会看到很多其他类型的服务器，适用场景不同。</p>
+<ol>
+<li>ECS(Elastic Compute Service)服务器可以简单理解为“弹性”服务器，也就是随时可以根据你的需求提高&#x2F;降低电脑的配置，比如CPU更强，内存更大，更多服务器。</li>
+<li>轻量应用服务器：适合建立轻量的网站，配置也很简单。不过我个人希望自由度高一些，就没有用这个了。</li>
+</ol>
+</blockquote>
+</li>
+<li><p>本文为了方便起见，<strong>选择</strong><code>一键购买</code>，然后基本上按默认配置购买即可。注意点：服务器选最低配的（够用了），镜像那里选<code>ubuntu 18.04</code>，本文仅供演示，购买时长只选了一周（16元），付款搞定</p>
+<blockquote>
+<p>如果你对服务器比较熟悉或者能折腾想学习，可以选择<code>自定义购买</code>，稍微费点时间</p>
+</blockquote>
+</li>
+</ol>
+<blockquote>
+<p>镜像的说明：ubuntu其他版本也可以，ubuntu用的人比较多，centos 和 aliyun linux（基于centos）也可以，后两者商用多一些。</p>
+</blockquote>
+<p><img src="https://jackiegeek.gitee.io/blog/attachment/2020-09-16_03-03-37.png" srcset="/img/loading.gif" lazyload alt="picture 2"></p>
+<p><img src="https://jackiegeek.gitee.io/blog/attachment/2020-09-16_03-14-20.png" srcset="/img/loading.gif" lazyload alt="picture 3"></p>
+<h3 id="二、配置服务器"><a href="#二、配置服务器" class="headerlink" title="二、配置服务器#"></a>二、配置服务器<a target="_blank" rel="noopener" href="https://jackiegeek.gitee.io/blog/%E6%8A%80%E6%9C%AF/%E4%BD%BF%E7%94%A8docker%E5%92%8Cstreamlit%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E7%AE%80%E5%8D%95%E7%9A%84%E6%BC%94%E7%A4%BA%E7%BD%91%E9%A1%B5/#%E4%BA%8C%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E5%99%A8" title="Permanent link">#</a></h3><p>由于我们刚才选的是<code>一键购买</code>，省略了一点配置，现在需要补上。做好心理准备，阿里云控制台有些复杂，我第一次用也很懵逼。如果你之前用<code>自定义购买</code>，下面可以跳过（记得开启80端口），不过你终究还是要熟悉控制台页面的，也可以看一下。</p>
+<ol>
+<li><p>回到<a target="_blank" rel="noopener" href="https://jackiegeek.gitee.io/blog/%E6%8A%80%E6%9C%AF/%E4%BD%BF%E7%94%A8docker%E5%92%8Cstreamlit%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E7%AE%80%E5%8D%95%E7%9A%84%E6%BC%94%E7%A4%BA%E7%BD%91%E9%A1%B5/aliyun.com">阿里云官网</a>，登录后在页面右上角有<code>控制台</code>按钮</p>
+</li>
+<li><p>进入控制台后，选择左上角的符号，展开选择<code>云服务器ECS</code><br><img src="https://jackiegeek.gitee.io/blog/attachment/2020-09-16_03-21-31.png" srcset="/img/loading.gif" lazyload alt="picture 4"></p>
+</li>
+<li><p>仿照图片，选择<code>实例</code>，在实例<code>更多</code>那里选择<code>重置密码</code>，之后我们要用这个密码，通过ssh连接服务器<br><img src="https://jackiegeek.gitee.io/blog/attachment/2020-09-16_03-27-08.png" srcset="/img/loading.gif" lazyload alt="picture 6"></p>
+<blockquote>
+<p>有更加安全的连接服务器的方式，你可以在阿里云的帮助文档中看到</p>
+</blockquote>
+</li>
+<li><p>仿照下面几张图片，我们要修改安全组配置，加入80端口（http端口），以便之后能够访问网页<br><img src="https://jackiegeek.gitee.io/blog/attachment/2020-09-16_03-30-11.png" srcset="/img/loading.gif" lazyload alt="picture 7"><br><img src="https://jackiegeek.gitee.io/blog/attachment/2020-09-16_03-33-10.png" srcset="/img/loading.gif" lazyload alt="picture 8"><br>选择快速添加（手动添加也差不多），这里我顺带把443https端口也开了<br><img src="https://jackiegeek.gitee.io/blog/attachment/2020-09-16_03-33-52.png" srcset="/img/loading.gif" lazyload alt="picture 9"></p>
+</li>
+</ol>
+<h3 id="三、ssh连接服务器"><a href="#三、ssh连接服务器" class="headerlink" title="三、ssh连接服务器#"></a>三、ssh连接服务器<a target="_blank" rel="noopener" href="https://jackiegeek.gitee.io/blog/%E6%8A%80%E6%9C%AF/%E4%BD%BF%E7%94%A8docker%E5%92%8Cstreamlit%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E7%AE%80%E5%8D%95%E7%9A%84%E6%BC%94%E7%A4%BA%E7%BD%91%E9%A1%B5/#%E4%B8%89ssh%E8%BF%9E%E6%8E%A5%E6%9C%8D%E5%8A%A1%E5%99%A8" title="Permanent link">#</a></h3><p>实例列表那里有公网ip，复制一下，我的是：<code>101.37.146.225</code><br><img src="https://jackiegeek.gitee.io/blog/attachment/2020-09-16_03-37-04.png" srcset="/img/loading.gif" lazyload alt="picture 10"><br>然后找一个ssh客户端（xshell&#x2F;vscode），通过<code>ssh root@101.37.146.225</code>连接阿里云服务器，你也可以使用阿里云提供的其他连接方式（在实例页面选择<code>远程连接</code>）</p>
+<h3 id="四、安装docker"><a href="#四、安装docker" class="headerlink" title="四、安装docker#"></a>四、安装docker<a target="_blank" rel="noopener" href="https://jackiegeek.gitee.io/blog/%E6%8A%80%E6%9C%AF/%E4%BD%BF%E7%94%A8docker%E5%92%8Cstreamlit%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E7%AE%80%E5%8D%95%E7%9A%84%E6%BC%94%E7%A4%BA%E7%BD%91%E9%A1%B5/#%E5%9B%9B%E5%AE%89%E8%A3%85docker" title="Permanent link">#</a></h3><blockquote>
+<p>你也完全可以不使用docker，在服务器上安装python环境和streamlint就可以了，不过docker可以简化这个流程</p>
+</blockquote>
+<p>在阿里云服务器的终端中输入以下指令</p>
+<p><code>apt update # 必须先update，才能安装软件 curl -fsSL get.docker.com -o get-docker.sh sudo sh get-docker.sh --mirror Aliyun # mirror是镜像，为了加速</code></p>
+<blockquote>
+<p>正常来讲为了权限控制，还需要创建一个docker用户，不过这里为了方便省略掉了</p>
+</blockquote>
+<h3 id="五、使用docker创建streamlit镜像并部署"><a href="#五、使用docker创建streamlit镜像并部署" class="headerlink" title="五、使用docker创建streamlit镜像并部署#"></a>五、使用docker创建streamlit镜像并部署<a target="_blank" rel="noopener" href="https://jackiegeek.gitee.io/blog/%E6%8A%80%E6%9C%AF/%E4%BD%BF%E7%94%A8docker%E5%92%8Cstreamlit%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E7%AE%80%E5%8D%95%E7%9A%84%E6%BC%94%E7%A4%BA%E7%BD%91%E9%A1%B5/#%E4%BA%94%E4%BD%BF%E7%94%A8docker%E5%88%9B%E5%BB%BAstreamlit%E9%95%9C%E5%83%8F%E5%B9%B6%E9%83%A8%E7%BD%B2" title="Permanent link">#</a></h3><blockquote>
+<p>这是一个简单的演示，并非是使用docker的最佳实践</p>
+</blockquote>
+<p>创建一个文件夹，创建Dockerfile，内容为（注释可以删掉）</p>
+<p><code># 从python3.6镜像基础上创建 FROM python:3.6 # 设置镜像源，提高pip install 速度 RUN pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/ \         &amp;&amp; pip install streamlit # streamlit hello创建一个演示页面，映射80端口以便网页访问 CMD [&quot;streamlit&quot;,&quot;hello&quot;, &quot;--server.port&quot;,&quot;80&quot;]</code></p>
+<p>然后执行<code>docker build -t streamlit .</code> （注意结尾有一个<code>.</code>符号），耐心等待一段时间</p>
+<blockquote>
+<p>这个指令用于创建一个streamlit的镜像（docker术语），<code>-t streamlit</code>指定了这个镜像的名字，最后一个<code>.</code>表示构建的上下文路径</p>
+</blockquote>
+<p>然后使用streamlit镜像创建容器，运行streamlit</p>
+<p><code>docker run -p 80:80 streamlit</code></p>
+<p>然后它会提示你<code>External URL: http://101.37.146.225:80</code>，由于80是http的默认端口，所以你在浏览器中直接输入<code>101.37.146.225</code>就可以了（换成你的阿里云公网ip地址）</p>
+<blockquote>
+<p>本文最后将streamlit部署在另一个服务器的8501端口了，所以应当访问这个：<a target="_blank" rel="noopener" href="http://47.115.79.16:8501/">http://47.115.79.16:8501</a><br>Done!! 搞定！你可以在网址中愉快地玩耍了<br><img src="https://jackiegeek.gitee.io/blog/attachment/2020-09-16_04-33-45.png" srcset="/img/loading.gif" lazyload alt="picture 11"></p>
+</blockquote>
+<h3 id="六、下一步"><a href="#六、下一步" class="headerlink" title="六、下一步#"></a>六、下一步<a target="_blank" rel="noopener" href="https://jackiegeek.gitee.io/blog/%E6%8A%80%E6%9C%AF/%E4%BD%BF%E7%94%A8docker%E5%92%8Cstreamlit%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E7%AE%80%E5%8D%95%E7%9A%84%E6%BC%94%E7%A4%BA%E7%BD%91%E9%A1%B5/#%E5%85%AD%E4%B8%8B%E4%B8%80%E6%AD%A5" title="Permanent link">#</a></h3><ol>
+<li>学习docker和streamlit创建更好玩的网站！学习资料在此<ul>
+<li><a target="_blank" rel="noopener" href="https://yeasy.gitbook.io/">docker从入门到实践</a></li>
+<li>streamlit：<a target="_blank" rel="noopener" href="https://sspai.com/post/58474">王树义老师的教程</a>或者<a target="_blank" rel="noopener" href="https://www.streamlit.io/">streamlit官网</a></li>
+<li><a target="_blank" rel="noopener" href="https://discuss.streamlit.io/t/tutorial-deploying-streamlit-app-to-aws-lightsail-with-docker-and-nginx/5561">使用nginx优化部署</a></li>
+</ul>
+</li>
+<li>购买域名并将域名指向这个服务器，方便你的同学、老师、客户查看</li>
+</ol>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料#"></a>参考资料<a target="_blank" rel="noopener" href="https://jackiegeek.gitee.io/blog/%E6%8A%80%E6%9C%AF/%E4%BD%BF%E7%94%A8docker%E5%92%8Cstreamlit%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E7%AE%80%E5%8D%95%E7%9A%84%E6%BC%94%E7%A4%BA%E7%BD%91%E9%A1%B5/#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99" title="Permanent link">#</a></h2><ol>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/78432719">docker部署一个超简单的flask应用</a></li>
+<li><a target="_blank" rel="noopener" href="https://maelfabien.github.io/project/Streamlit/">docker+streamlit展示spacy命名实体识别功能</a></li>
+<li><a target="_blank" rel="noopener" href="https://discuss.streamlit.io/t/tutorial-deploying-streamlit-app-to-aws-lightsail-with-docker-and-nginx/5561">在AWS上用docker+nginx部署streamlit</a></li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>使用docker和streamlit阿里云服务器部署简单的演示网页</div>
+      <div>http://example.com/2024/08/25/presentation/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>August 25, 2024</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/08/25/obsidian-zola/" title="黑曜石左拉">
+                        <span class="hidden-mobile">黑曜石左拉</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
